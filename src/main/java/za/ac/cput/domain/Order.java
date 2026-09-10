@@ -1,5 +1,7 @@
 package za.ac.cput.domain;
-
+//Vumbhoni Clifford Mnisi
+//222929456
+//Group 3G
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
