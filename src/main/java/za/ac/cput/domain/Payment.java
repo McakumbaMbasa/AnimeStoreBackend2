@@ -3,11 +3,11 @@ package za.ac.cput.domain;
 // Kyle Marais 222727993
 
 public class Payment {
-    private String paymentId;
-    private String orderId;
-    private PaymentMethod method;
-    private double amount;
-    private PaymentStatus status;
+    private final String paymentId;
+    private final String orderId;
+    private final PaymentMethod method;
+    private final double amount;
+    private final PaymentStatus status;
 
     private Payment(Builder builder) {
         this.paymentId = builder.paymentId;
