@@ -5,8 +5,9 @@ Product class
 Author: Sisonke Mhlana(221805486)
 */
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import za.ac.cput.domain.Category;
+
 import java.util.Objects;
 
 @Entity
@@ -15,6 +16,7 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
+
     private String name;
     private double price;
     private int stock;
@@ -22,11 +24,13 @@ public class Product {
     @Lob
     @Column(length = 10485760)
     private byte[] productImage;
+
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
-    protected Product() {}
+    protected Product() {
+    }
 
     private Product(Builder builder) {
         this.productId = builder.productId;
@@ -37,21 +41,45 @@ public class Product {
         this.category = builder.category;
     }
 
-    // ================= Getters =================
-    public Long getProductId() { return productId; }
-    public String getName() { return name; }
-    public double getPrice() { return price; }
-    public int getStock() { return stock; }
-    public byte[] getProductImage() { return productImage; }
-    public Category getCategory() { return category; }
+    public Long getProductId() {
+        return productId;
+    }
 
-    // ================= Setters =================
-    public void setStock(int stock) { this.stock = stock; } // ← ADD THIS SETTER
-    public void setProductImage(byte[] productImage) { this.productImage = productImage; }
-    public void setCategory(Category category) { this.category = category; }
+    public String getName() {
+        return name;
+    }
 
-    // ================= Builder =================
+    public double getPrice() {
+        return price;
+    }
+
+    public int getStock() {
+        return stock;
+    }
+
+    @JsonIgnore
+    public byte[] getProductImage() {
+        return productImage;
+    }
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setStock(int stock) {
+        this.stock = stock;
+    }
+
+    public void setProductImage(byte[] productImage) {
+        this.productImage = productImage;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public static class Builder {
+
         private Long productId;
         private String name;
         private double price;
@@ -111,8 +139,10 @@ public class Product {
                 ", name='" + name + '\'' +
                 ", price=" + price +
                 ", stock=" + stock +
-                ", productImage=" + (productImage != null ? "[image data]" : "null") +
-                ", category=" + (category != null ? category.getName() : "null") +
+                ", productImage=" +
+                (productImage != null ? "[image data]" : "null") +
+                ", category=" +
+                (category != null ? category.getName() : "null") +
                 '}';
     }
 
@@ -120,12 +150,14 @@ public class Product {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Product product = (Product) o;
-        return Double.compare(product.price, price) == 0 &&
-                stock == product.stock &&
-                Objects.equals(productId, product.productId) &&
-                Objects.equals(name, product.name) &&
-                Objects.equals(category, product.category);
+
+        return Double.compare(product.price, price) == 0
+                && stock == product.stock
+                && Objects.equals(productId, product.productId)
+                && Objects.equals(name, product.name)
+                && Objects.equals(category, product.category);
     }
 
     @Override

@@ -108,16 +108,29 @@ public class ProductController {
         int stock = productService.getAvailableStock(id);
         return ResponseEntity.ok(stock);
     }
-
     @PutMapping("/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable Long id, @RequestBody Product product) {
-        // For update, use builder to set the ID
+        Product existingProduct = productService.getById(id);
+        if (existingProduct == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        Category category = existingProduct.getCategory();
+        if (product.getCategory() != null && product.getCategory().getCategoryId() != null) {
+            Category requestedCategory = categoryService.getById(product.getCategory().getCategoryId());
+            if (requestedCategory == null) {
+                return ResponseEntity.badRequest().build();
+            }
+            category = requestedCategory;
+        }
+
         Product productToUpdate = new Product.Builder()
                 .setProductId(id)
                 .setName(product.getName())
                 .setPrice(product.getPrice())
                 .setStock(product.getStock())
-                .setCategory(product.getCategory())
+                .setProductImage(existingProduct.getProductImage())
+                .setCategory(category)
                 .build();
 
         Product updatedProduct = productService.update(productToUpdate);
@@ -126,6 +139,8 @@ public class ProductController {
         }
         return ResponseEntity.notFound().build();
     }
+
+
 
     // NEW: Update stock endpoint
     @PutMapping("/{id}/stock")
