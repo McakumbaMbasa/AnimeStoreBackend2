@@ -10,8 +10,8 @@ public class CorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(CorsRegistry registry) {
-        // Allow specific frontend origins (student project style)
-        registry.addMapping("/api/**")
+
+        registry.addMapping("/**")
                 .allowedOrigins(
                         "http://localhost:5173",
                         "http://localhost:5174"
