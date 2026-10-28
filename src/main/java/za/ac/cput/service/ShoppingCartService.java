@@ -7,6 +7,7 @@ import za.ac.cput.repository.IShoppingCartRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Objects;
 
 @Service
 public class ShoppingCartService implements IShoppingCartService {
@@ -69,7 +70,7 @@ public class ShoppingCartService implements IShoppingCartService {
     public List<ShoppingCart> getShoppingCartsByUserId(String userId) {
 
         return repository.findAll().stream()
-                .filter(cart -> cart.getUserId().equals(userId))
+                .filter(cart -> Objects.equals(cart.getUserId(), userId))
                 .toList();
     }
 
@@ -77,7 +78,7 @@ public class ShoppingCartService implements IShoppingCartService {
     public List<ShoppingCart> getShoppingCartsByStatus(String status) {
 
         return repository.findAll().stream()
-                .filter(cart -> cart.getStatus().equals(status))
+                .filter(cart -> Objects.equals(cart.getStatus(), status))
                 .toList();
     }
 }

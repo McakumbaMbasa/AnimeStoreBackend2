@@ -6,6 +6,7 @@ package za.ac.cput.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import za.ac.cput.domain.OrderItem;
 import za.ac.cput.repository.IOrderItemRepository;
 
@@ -62,8 +63,9 @@ public class OrderItemService implements IOrderItemService {
     }
 
     @Override
+    @Transactional(readOnly = true)
     public List<OrderItem> getAllOrderItems() {
-        return repository.findAll();
+        return repository.findAllWithOrder();
     }
 
     @Override

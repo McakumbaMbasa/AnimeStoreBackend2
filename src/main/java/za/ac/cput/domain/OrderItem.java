@@ -1,4 +1,6 @@
 package za.ac.cput.domain;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 //Vumbhoni Clifford Mnisi
 //222929456
 //Group 3G
@@ -22,6 +24,7 @@ public class OrderItem {
 //
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private Order order;
 
     protected OrderItem() {}
@@ -31,6 +34,7 @@ public class OrderItem {
         this.itemDescription = builder.itemDescription;
         this.itemQuantity = builder.itemQuantity;
         this.unitPrice = builder.unitPrice;
+        this.order = builder.order;
     }
 
     public String getOrderItemId() { return orderItemId; }
@@ -56,6 +60,12 @@ public class OrderItem {
         private String itemDescription;
         private int itemQuantity;
         private double unitPrice;
+        private Order order;
+
+        public Builder setOrder(Order order) {
+            this.order = order;
+            return this;
+        }
 
         public Builder setOrderItemId(String orderItemId) {
             this.orderItemId = orderItemId;
@@ -82,6 +92,7 @@ public class OrderItem {
             this.itemDescription = orderItem.getItemDescription();
             this.itemQuantity = orderItem.getItemQuantity();
             this.unitPrice = orderItem.getUnitPrice();
+            this.order = orderItem.getOrder();
             return this;
         }
 
